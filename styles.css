@@ -102,7 +102,27 @@ h2 { margin: 0; font: 700 34px/1 var(--font-display); }
 .search-box input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--text); font: 400 11px var(--font-body); }
 .search-box input::placeholder { color: #77717c; }
 kbd { display: grid; place-items: center; width: 18px; height: 19px; border: 1px solid #39343d; color: #817a86; font: 10px var(--font-body); }
-.mapper-list { border-top: 1px solid var(--line); }
+.mapper-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.mapper-folder { min-width: 0; overflow: hidden; border: 1px solid var(--line); background: rgba(255,255,255,.012); transition: border-color .18s ease, background .18s ease; }
+.mapper-folder-group { grid-column: 1 / -1; }
+.mapper-contents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.mapper-folder:hover, .mapper-folder[open] { border-color: #635176; background: rgba(173,123,255,.035); }
+.mapper-folder-summary { min-height: 70px; display: flex; align-items: center; gap: 12px; padding: 12px 14px; cursor: pointer; list-style: none; }
+.mapper-folder-summary::-webkit-details-marker { display: none; }
+.mapper-folder-summary:focus-visible { outline: 2px solid var(--purple-bright); outline-offset: -2px; }
+.folder-icon { position: relative; width: 35px; height: 25px; flex: 0 0 35px; border: 1px solid #8060a8; background: rgba(173,123,255,.08); }
+.folder-icon::before { position: absolute; top: -6px; left: -1px; width: 14px; height: 5px; border: 1px solid #8060a8; border-bottom: 0; background: #211a29; content: ""; }
+.folder-name { min-width: 0; overflow: hidden; font: 700 17px/1.05 var(--font-display); text-overflow: ellipsis; white-space: nowrap; }
+.folder-count { margin-left: auto; color: #aaa1b1; font-size: 9px; font-weight: 700; white-space: nowrap; }
+.folder-chevron { color: var(--purple-bright); font-size: 16px; transition: transform .18s ease; }
+.mapper-folder[open] .folder-chevron { transform: rotate(180deg); }
+.mapper-folder .mapper-row { min-height: 70px; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 14px; padding: 12px 14px; border-bottom: 1px solid var(--line); background: transparent; }
+.mapper-folder .mapper-row:hover { background: rgba(173,123,255,.045); }
+.mapper-folder .mapper-identity { grid-row: span 2; }
+.mapper-folder .version-tag { justify-self: end; }
+.mapper-folder .download-link { justify-self: end; min-width: 136px; }
+.mapper-folder-pending .mapper-folder-summary { min-height: 63px; }
+.folder-pending-note { margin: -3px 14px 14px 61px; color: var(--muted); font-size: 10px; line-height: 1.5; }
 .mapper-row {
   min-height: 78px;
   display: grid;
@@ -259,6 +279,15 @@ kbd { display: grid; place-items: center; width: 18px; height: 19px; border: 1px
   .catalog { padding-top: 29px; }
   .catalog-heading { align-items: flex-start; flex-direction: column; margin-bottom: 15px; }
   .search-box { width: 100%; }
+  .mapper-list { grid-template-columns: minmax(0, 1fr); gap: 9px; }
+  .mapper-contents { grid-template-columns: minmax(0, 1fr); }
+  .mapper-folder-group { grid-column: auto; }
+  .mapper-folder-summary { min-height: 64px; gap: 10px; padding: 10px 12px; }
+  .folder-icon { width: 31px; height: 23px; flex-basis: 31px; }
+  .folder-name { font-size: 15px; }
+  .folder-count { font-size: 8px; }
+  .mapper-folder .mapper-row { padding: 11px 10px; }
+  .folder-pending-note { margin-left: 53px; }
   .mapper-row { min-height: 72px; grid-template-columns: minmax(0, 1fr) auto; gap: 7px 10px; padding: 12px 8px; }
   .mapper-identity { grid-row: span 2; gap: 10px; }
   .mapper-index { width: 16px; font-size: 10px; }
