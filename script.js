@@ -1,16 +1,28 @@
 const searchInput = document.querySelector("#mapper-search");
 
 if (searchInput) {
-  const mapperRows = [...document.querySelectorAll(".mapper-row")];
+  const mapperFolders = [...document.querySelectorAll(".mapper-folder")];
   const emptyState = document.querySelector("#empty-state");
 
   function filterMappers() {
     const query = searchInput.value.trim().toLocaleLowerCase("es");
     let visibleCount = 0;
 
-    for (const row of mapperRows) {
-      const matches = row.dataset.search.includes(query);
-      row.hidden = !matches;
+    for (const folder of mapperFolders) {
+      const categorySearch = folder.dataset.categorySearch || "";
+      const categoryMatches = query !== "" && categorySearch.includes(query);
+      const rows = [...folder.querySelectorAll(".mapper-row")];
+      let matchingRows = 0;
+
+      for (const row of rows) {
+        const matches = query === "" || categoryMatches || row.dataset.search.includes(query);
+        row.hidden = !matches;
+        if (matches) matchingRows += 1;
+      }
+
+      const matches = query === "" || categoryMatches || matchingRows > 0;
+      folder.hidden = !matches;
+      if (query !== "" && matches && rows.length > 0) folder.open = true;
       if (matches) visibleCount += 1;
     }
 
